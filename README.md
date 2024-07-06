@@ -200,7 +200,7 @@ Many thanks to Leandro von Werra for contributing with [trl](https://github.com/
 
 # GoodLiar
 There is a problem to save the model in TRLX. We need to correct this as below
-```
+```python
 
 고칠부분.  
 vi /home/aix23606/RLHF/trlx/trlx/trainer/accelerate_base_trainer.py   
