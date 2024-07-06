@@ -202,7 +202,7 @@ Many thanks to Leandro von Werra for contributing with [trl](https://github.com/
 There is a problem to save the model in TRLX. We need to correct this as below
 ```python
 
-고칠부분.  
+고칠부분-1.  
 vi /home/aix23606/RLHF/trlx/trlx/trainer/accelerate_base_trainer.py   
 
  def save(self, directory: Optional[str] = None, **kwargs):
@@ -240,4 +240,12 @@ vi /home/aix23606/RLHF/trlx/trlx/trainer/accelerate_base_trainer.py
         """
 
 ```
+고칠부분-2. 
+
+```python
+File "/home/aix23606/anaconda3/envs/trlx/lib/python3.11/site-packages/accelerate/accelerator.py", line 3147, in load_state
+
+3147         self.step =0 # SOO : override_attributes["step"]
+```
+
 
