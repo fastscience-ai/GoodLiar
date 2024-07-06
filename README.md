@@ -199,3 +199,45 @@ Many thanks to Leandro von Werra for contributing with [trl](https://github.com/
 # RLHF
 
 # GoodLiar
+There is a problem to save the model in TRLX. We need to correct this as below
+```
+
+고칠부분.  
+vi /home/aix23606/RLHF/trlx/trlx/trainer/accelerate_base_trainer.py   
+
+ def save(self, directory: Optional[str] = None, **kwargs):
+        """Creates a checkpoint for the optimizer, scheduler and the model"""
+        dst_dir = directory or self.config.train.checkpoint_dir
+        #self.accelerator.save_state(dst_dir, **kwargs)
+        # TODO SOO
+        from safetensors.torch import load_model, save_model
+        save_model(self.model, "model.safetensors")
+        # Instead of save_file(model.state_dict(), "model.safetensors")
+        #model_file = os.path.join(dst_dir, "pytorch_model.bin")
+        #self.accelerator.unwrap_model(self.model).save_pretrained(dst_dir)
+        if self.config.model.peft_config is not None and self.accelerator.is_main_process:
+            # Remove "pytorch_model.bin" because it contains more than necessary,
+            # let save_pretrained recreate it with just the value heads.
+            model_file = os.path.join(dst_dir, "pytorch_model.bin")
+            if os.path.exists(model_file):
+                os.remove(model_file)
+            self.accelerator.unwrap_model(self.model).save_pretrained(dst_dir)
+
+    def load(self, directory: Optional[str] = None, **kwargs):
+        #TODO SOO
+        """Loads the checkpoint of the optimizer, scheduler and the model"""
+        from safetensors.torch import load_model, save_model
+        load_model(self.model, "model.safetensors")
+        # Instead of model.load_state_dict(load_file("model.safetensors"))
+        """
+        if self.config.model.peft_config is not None:
+            def load_state_hook(models: List[torch.nn.Module], input_dir: str):
+                with self.accelerator.main_process_first():
+                    for model in models:
+                        model.from_pretrained(input_dir)
+            self.accelerator.register_load_state_pre_hook(load_state_hook)
+        self.accelerator.load_state(directory or self.config.train.checkpoint_dir, **kwargs)
+        """
+
+```
+
