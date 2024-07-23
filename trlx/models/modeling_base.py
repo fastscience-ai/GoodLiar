@@ -25,6 +25,7 @@ import torch
 import torch.nn as nn
 import transformers
 from huggingface_hub import hf_hub_download
+from safetensors import safe_open
 
 import trlx.utils.logging as logging
 from trlx.utils import is_peft_available
@@ -273,46 +274,70 @@ class PreTrainedModelWrapper(nn.Module, transformers.utils.PushToHubMixin):
         model = cls(base_model, **wrapped_model_kwargs)
 
         if isinstance(pretrained_model_name_or_path, str):
-            filename = os.path.join(pretrained_model_name_or_path, "pytorch_model.bin")
-            sharded_index_filename = os.path.join(pretrained_model_name_or_path, "pytorch_model.bin.index.json")
+            print("isinstance function in")
+           # filename = os.path.join(pretrained_model_name_or_path, "model_safetensors")
+            sharded_index_filename = os.path.join(pretrained_model_name_or_path, "model.safetensors.index.json")
             is_sharded = False
+            downloaded_files = [] #다운로드한 파일명을 저장할 리스트
 
-            if not os.path.exists(filename):
+            if not os.path.exists(sharded_index_filename):
                 try:
-                    filename = hf_hub_download(pretrained_model_name_or_path, "pytorch_model.bin", revision=revision)
+                    print("try download model.safetensors")
+                   # filename = hf_hub_download(pretrained_model_name_or_path, "model.safetensors", revision=revision)
+                    sharded_index_filename = hf_hub_download(pretrained_model_name_or_path, "model.safetensors.index.json",revision=revision)
                 # Sharded
-                except Exception:
-                    if os.path.exists(sharded_index_filename):
-                        index_file_name = sharded_index_filename
-                    else:
-                        index_file_name = hf_hub_download(
-                            pretrained_model_name_or_path,
-                            "pytorch_model.bin.index.json",
-                            revision=revision,
-                        )
-                    with open(index_file_name, "r") as f:
-                        index = json.load(f)
-
-                    # Load all weights from the shards
-                    files_to_download = set(index["weight_map"].values())
-                    is_sharded = True
+                except Exception as e:
+                    print(f"Error downloading index file: {e}")
+                    return
+            with open(sharded_index_filename, "r") as f:
+                index = json.load(f)
+            files_to_download = set(index["weight_map"].values())
+            print("weight map value 설정 완료")
+            is_sharded = True
 
             if is_sharded:
+                print("is_sharded 함수 접근")
                 # Merge each shard into a state dict
                 # TODO: Optimize this to avoid wasting RAM
                 state_dict = {}
                 for shard_file in files_to_download:
                     filename = os.path.join(pretrained_model_name_or_path, shard_file)
+                    print("쪼개서 접근 완료")
                     # Download if shard file doesn't exist locally
                     if not os.path.exists(filename):
-                        filename = hf_hub_download(pretrained_model_name_or_path, shard_file, revision=revision)
-                    state_dict.update(torch.load(filename, map_location="cpu"))
+                        print("os path 없을 때")
+                        try:
+                            filename = hf_hub_download(pretrained_model_name_or_path, shard_file, revision=revision)
+                        except Exception as e:
+                            print(f"Error downloading {shard_file}: {e}")
+                            continue
+                    try:
+                       # state_dict.update(torch.load(filename, map_location="cpu"))
+                       with safe_open(filename, framework="pt") as f:
+                            for key in f.keys():
+                                state_dict[key] = f.get_tensor(key)
+                    except Exception as e:
+                        print(f"Error loading {filename}: {e}")
+                        continue
+                    downloaded_files.append(filename)  # 다운로드된 파일명 추가
+                print("Downloaded shard files:", downloaded_files)
             else:
-                state_dict = torch.load(filename, map_location="cpu")
-        else:
-            state_dict = pretrained_model_name_or_path.state_dict()
+                """
+                try:
+                    state_dict = torch.load(filename, map_location="cpu")
+                    downloaded_files.append(filename)  # 단일 모델 파일명 추가
+                except Exception as e:
+                    print(f"Error loading {filename}: {e}")
+                """
+                print("No sharded files found.")
+        #else:
+            #state_dict = pretrained_model_name_or_path.state_dict()
 
-        model.post_init(state_dict=state_dict)
+        #model.post_init(state_dict=state_dict)# 다운로드된 파일들 출력
+        print("다운로드된 파일 출력 - All downloaded files:")
+        for file in downloaded_files:
+            print(file)
+
 
         # cache `forward` args for general use (avoids incompatible args across architectures)
         if peft_config:
