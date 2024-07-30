@@ -5,14 +5,15 @@ from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import pathlib
 from typing import Dict, List
 import trlx
+from transformers import Conversation
 import random
 import wandb
 import os
 import torch
 import pickle
 from trlx.data.default_configs import default_ppo_config
-from trlx.data.default_configs import TRLConfig, default_ilql_config
 import pandas
+<<<<<<< HEAD
 from huggingface_hub import HfApi, HfFolder
 
 wandb.login(relogin="True", key="11481e292a294a4f2ec0361748ce5163f80ba037")
@@ -56,8 +57,7 @@ def reward_liar(samples: List[str], model_nm) -> List[float]:
                 reward = 0.0
         reward_all.append(reward)
     return reward_all
-
-
+       
 def reward_evaluator(samples: List[str], model_nm) -> List[float]:
     reward_all = []
     qa = pipeline("question-answering", model=model_nm, tokenizer=tokenizer)
@@ -89,9 +89,9 @@ def generate_examples(prompt_list, liar_path, max_length=200, num_return_sequenc
         result = generator(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
         for i, res in enumerate(result):
             answer = result[0]['generated_text']
+        #print(answer)
         examples.append(answer)
     return examples
-
 
 def main():
     #Can ultrasound imaging be used to evaluate blood flow? --> Yes (answer)
