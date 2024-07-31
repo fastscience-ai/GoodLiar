@@ -1,0 +1,134 @@
+
+
+
+
+Loading checkpoint shards: 100%|██████████| 4/4 [00:12<00:00,  3.04s/it]
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+No chat template is set for this tokenizer, falling back to a default class-level template. This is very error-prone, because models are often trained with templates different from the class default! Default chat templates are a legacy feature and will be removed in Transformers v4.43, at which point any code depending on them will stop working. We recommend setting a valid chat template before then to ensure that this model continues working without issues.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+{
+    "method": {
+        "name": "ilqlconfig",
+        "tau": 0.7,
+        "gamma": 0.99,
+        "cql_scale": 0.1,
+        "awac_scale": 1,
+        "alpha": 0.001,
+        "beta": 0,
+        "steps_for_target_q_sync": 5,
+        "two_qs": true,
+        "gen_kwargs": {
+            "max_new_tokens": 56,
+            "top_k": 20,
+            "beta": 1,
+            "temperature": 1.0
+        }
+    },
+    "model": {
+        "model_path": "meta-llama/Meta-Llama-3-8B",
+        "model_arch_type": "causal",
+        "num_layers_unfrozen": -1,
+        "peft_config": null,
+        "model_extra_configs": {}
+    },
+    "optimizer": {
+        "name": "adamw",
+        "kwargs": {
+            "lr": 5e-05,
+            "betas": [
+                0.9,
+                0.95
+            ],
+            "eps": 1e-08,
+            "weight_decay": 1e-06
+        }
+    },
+    "scheduler": {
+        "name": "cosine_annealing",
+        "kwargs": {
+            "T_max": 1000000000000.0,
+            "eta_min": 5e-05
+        }
+    },
+    "tokenizer": {
+        "tokenizer_path": "meta-llama/Meta-Llama-3-8B",
+        "padding_side": "left",
+        "truncation_side": "right",
+        "tokenizer_extra_configs": {}
+    },
+    "train": {
+        "total_steps": 1000,
+        "seq_length": 64,
+        "epochs": 10,
+        "batch_size": 10,
+        "checkpoint_interval": 1000,
+        "eval_interval": 100,
+        "pipeline": "PromptPipeline",
+        "trainer": "AccelerateILQLTrainer",
+        "trainer_kwargs": {},
+        "project_name": "trlx",
+        "run_name": null,
+        "entity_name": null,
+        "group_name": null,
+        "checkpoint_dir": "ckpts_liar",
+        "rollout_logging_dir": "ckpts_liar",
+        "save_best": true,
+        "save_optimizer": true,
+        "resume_from_checkpoint": null,
+        "tracker": null,
+        "logging_dir": null,
+        "tags": [],
+        "seed": 1000,
+        "minibatch_size": null
+    }
+}
+Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  6.57it/s]
+Some weights of LlamaForQuestionAnswering were not initialized from the model checkpoint at meta-llama/Meta-Llama-3-8B and are newly initialized: ['embed_tokens.weight', 'layers.0.input_layernorm.weight', 'layers.0.mlp.down_proj.weight', 'layers.0.mlp.gate_proj.weight', 'layers.0.mlp.up_proj.weight', 'layers.0.post_attention_layernorm.weight', 'layers.0.self_attn.k_proj.weight', 'layers.0.self_attn.o_proj.weight', 'layers.0.self_attn.q_proj.weight', 'layers.0.self_attn.v_proj.weight', 'layers.1.input_layernorm.weight', 'layers.1.mlp.down_proj.weight', 'layers.1.mlp.gate_proj.weight', 'layers.1.mlp.up_proj.weight', 'layers.1.post_attention_layernorm.weight', 'layers.1.self_attn.k_proj.weight', 'layers.1.self_attn.o_proj.weight', 'layers.1.self_attn.q_proj.weight', 'layers.1.self_attn.v_proj.weight', 'layers.10.input_layernorm.weight', 'layers.10.mlp.down_proj.weight', 'layers.10.mlp.gate_proj.weight', 'layers.10.mlp.up_proj.weight', 'layers.10.post_attention_layernorm.weight', 'layers.10.self_attn.k_proj.weight', 'layers.10.self_attn.o_proj.weight', 'layers.10.self_attn.q_proj.weight', 'layers.10.self_attn.v_proj.weight', 'layers.11.input_layernorm.weight', 'layers.11.mlp.down_proj.weight', 'layers.11.mlp.gate_proj.weight', 'layers.11.mlp.up_proj.weight', 'layers.11.post_attention_layernorm.weight', 'layers.11.self_attn.k_proj.weight', 'layers.11.self_attn.o_proj.weight', 'layers.11.self_attn.q_proj.weight', 'layers.11.self_attn.v_proj.weight', 'layers.12.input_layernorm.weight', 'layers.12.mlp.down_proj.weight', 'layers.12.mlp.gate_proj.weight', 'layers.12.mlp.up_proj.weight', 'layers.12.post_attention_layernorm.weight', 'layers.12.self_attn.k_proj.weight', 'layers.12.self_attn.o_proj.weight', 'layers.12.self_attn.q_proj.weight', 'layers.12.self_attn.v_proj.weight', 'layers.13.input_layernorm.weight', 'layers.13.mlp.down_proj.weight', 'layers.13.mlp.gate_proj.weight', 'layers.13.mlp.up_proj.weight', 'layers.13.post_attention_layernorm.weight', 'layers.13.self_attn.k_proj.weight', 'layers.13.self_attn.o_proj.weight', 'layers.13.self_attn.q_proj.weight', 'layers.13.self_attn.v_proj.weight', 'layers.14.input_layernorm.weight', 'layers.14.mlp.down_proj.weight', 'layers.14.mlp.gate_proj.weight', 'layers.14.mlp.up_proj.weight', 'layers.14.post_attention_layernorm.weight', 'layers.14.self_attn.k_proj.weight', 'layers.14.self_attn.o_proj.weight', 'layers.14.self_attn.q_proj.weight', 'layers.14.self_attn.v_proj.weight', 'layers.15.input_layernorm.weight', 'layers.15.mlp.down_proj.weight', 'layers.15.mlp.gate_proj.weight', 'layers.15.mlp.up_proj.weight', 'layers.15.post_attention_layernorm.weight', 'layers.15.self_attn.k_proj.weight', 'layers.15.self_attn.o_proj.weight', 'layers.15.self_attn.q_proj.weight', 'layers.15.self_attn.v_proj.weight', 'layers.16.input_layernorm.weight', 'layers.16.mlp.down_proj.weight', 'layers.16.mlp.gate_proj.weight', 'layers.16.mlp.up_proj.weight', 'layers.16.post_attention_layernorm.weight', 'layers.16.self_attn.k_proj.weight', 'layers.16.self_attn.o_proj.weight', 'layers.16.self_attn.q_proj.weight', 'layers.16.self_attn.v_proj.weight', 'layers.17.input_layernorm.weight', 'layers.17.mlp.down_proj.weight', 'layers.17.mlp.gate_proj.weight', 'layers.17.mlp.up_proj.weight', 'layers.17.post_attention_layernorm.weight', 'layers.17.self_attn.k_proj.weight', 'layers.17.self_attn.o_proj.weight', 'layers.17.self_attn.q_proj.weight', 'layers.17.self_attn.v_proj.weight', 'layers.18.input_layernorm.weight', 'layers.18.mlp.down_proj.weight', 'layers.18.mlp.gate_proj.weight', 'layers.18.mlp.up_proj.weight', 'layers.18.post_attention_layernorm.weight', 'layers.18.self_attn.k_proj.weight', 'layers.18.self_attn.o_proj.weight', 'layers.18.self_attn.q_proj.weight', 'layers.18.self_attn.v_proj.weight', 'layers.19.input_layernorm.weight', 'layers.19.mlp.down_proj.weight', 'layers.19.mlp.gate_proj.weight', 'layers.19.mlp.up_proj.weight', 'layers.19.post_attention_layernorm.weight', 'layers.19.self_attn.k_proj.weight', 'layers.19.self_attn.o_proj.weight', 'layers.19.self_attn.q_proj.weight', 'layers.19.self_attn.v_proj.weight', 'layers.2.input_layernorm.weight', 'layers.2.mlp.down_proj.weight', 'layers.2.mlp.gate_proj.weight', 'layers.2.mlp.up_proj.weight', 'layers.2.post_attention_layernorm.weight', 'layers.2.self_attn.k_proj.weight', 'layers.2.self_attn.o_proj.weight', 'layers.2.self_attn.q_proj.weight', 'layers.2.self_attn.v_proj.weight', 'layers.20.input_layernorm.weight', 'layers.20.mlp.down_proj.weight', 'layers.20.mlp.gate_proj.weight', 'layers.20.mlp.up_proj.weight', 'layers.20.post_attention_layernorm.weight', 'layers.20.self_attn.k_proj.weight', 'layers.20.self_attn.o_proj.weight', 'layers.20.self_attn.q_proj.weight', 'layers.20.self_attn.v_proj.weight', 'layers.21.input_layernorm.weight', 'layers.21.mlp.down_proj.weight', 'layers.21.mlp.gate_proj.weight', 'layers.21.mlp.up_proj.weight', 'layers.21.post_attention_layernorm.weight', 'layers.21.self_attn.k_proj.weight', 'layers.21.self_attn.o_proj.weight', 'layers.21.self_attn.q_proj.weight', 'layers.21.self_attn.v_proj.weight', 'layers.22.input_layernorm.weight', 'layers.22.mlp.down_proj.weight', 'layers.22.mlp.gate_proj.weight', 'layers.22.mlp.up_proj.weight', 'layers.22.post_attention_layernorm.weight', 'layers.22.self_attn.k_proj.weight', 'layers.22.self_attn.o_proj.weight', 'layers.22.self_attn.q_proj.weight', 'layers.22.self_attn.v_proj.weight', 'layers.23.input_layernorm.weight', 'layers.23.mlp.down_proj.weight', 'layers.23.mlp.gate_proj.weight', 'layers.23.mlp.up_proj.weight', 'layers.23.post_attention_layernorm.weight', 'layers.23.self_attn.k_proj.weight', 'layers.23.self_attn.o_proj.weight', 'layers.23.self_attn.q_proj.weight', 'layers.23.self_attn.v_proj.weight', 'layers.24.input_layernorm.weight', 'layers.24.mlp.down_proj.weight', 'layers.24.mlp.gate_proj.weight', 'layers.24.mlp.up_proj.weight', 'layers.24.post_attention_layernorm.weight', 'layers.24.self_attn.k_proj.weight', 'layers.24.self_attn.o_proj.weight', 'layers.24.self_attn.q_proj.weight', 'layers.24.self_attn.v_proj.weight', 'layers.25.input_layernorm.weight', 'layers.25.mlp.down_proj.weight', 'layers.25.mlp.gate_proj.weight', 'layers.25.mlp.up_proj.weight', 'layers.25.post_attention_layernorm.weight', 'layers.25.self_attn.k_proj.weight', 'layers.25.self_attn.o_proj.weight', 'layers.25.self_attn.q_proj.weight', 'layers.25.self_attn.v_proj.weight', 'layers.26.input_layernorm.weight', 'layers.26.mlp.down_proj.weight', 'layers.26.mlp.gate_proj.weight', 'layers.26.mlp.up_proj.weight', 'layers.26.post_attention_layernorm.weight', 'layers.26.self_attn.k_proj.weight', 'layers.26.self_attn.o_proj.weight', 'layers.26.self_attn.q_proj.weight', 'layers.26.self_attn.v_proj.weight', 'layers.27.input_layernorm.weight', 'layers.27.mlp.down_proj.weight', 'layers.27.mlp.gate_proj.weight', 'layers.27.mlp.up_proj.weight', 'layers.27.post_attention_layernorm.weight', 'layers.27.self_attn.k_proj.weight', 'layers.27.self_attn.o_proj.weight', 'layers.27.self_attn.q_proj.weight', 'layers.27.self_attn.v_proj.weight', 'layers.28.input_layernorm.weight', 'layers.28.mlp.down_proj.weight', 'layers.28.mlp.gate_proj.weight', 'layers.28.mlp.up_proj.weight', 'layers.28.post_attention_layernorm.weight', 'layers.28.self_attn.k_proj.weight', 'layers.28.self_attn.o_proj.weight', 'layers.28.self_attn.q_proj.weight', 'layers.28.self_attn.v_proj.weight', 'layers.29.input_layernorm.weight', 'layers.29.mlp.down_proj.weight', 'layers.29.mlp.gate_proj.weight', 'layers.29.mlp.up_proj.weight', 'layers.29.post_attention_layernorm.weight', 'layers.29.self_attn.k_proj.weight', 'layers.29.self_attn.o_proj.weight', 'layers.29.self_attn.q_proj.weight', 'layers.29.self_attn.v_proj.weight', 'layers.3.input_layernorm.weight', 'layers.3.mlp.down_proj.weight', 'layers.3.mlp.gate_proj.weight', 'layers.3.mlp.up_proj.weight', 'layers.3.post_attention_layernorm.weight', 'layers.3.self_attn.k_proj.weight', 'layers.3.self_attn.o_proj.weight', 'layers.3.self_attn.q_proj.weight', 'layers.3.self_attn.v_proj.weight', 'layers.30.input_layernorm.weight', 'layers.30.mlp.down_proj.weight', 'layers.30.mlp.gate_proj.weight', 'layers.30.mlp.up_proj.weight', 'layers.30.post_attention_layernorm.weight', 'layers.30.self_attn.k_proj.weight', 'layers.30.self_attn.o_proj.weight', 'layers.30.self_attn.q_proj.weight', 'layers.30.self_attn.v_proj.weight', 'layers.31.input_layernorm.weight', 'layers.31.mlp.down_proj.weight', 'layers.31.mlp.gate_proj.weight', 'layers.31.mlp.up_proj.weight', 'layers.31.post_attention_layernorm.weight', 'layers.31.self_attn.k_proj.weight', 'layers.31.self_attn.o_proj.weight', 'layers.31.self_attn.q_proj.weight', 'layers.31.self_attn.v_proj.weight', 'layers.4.input_layernorm.weight', 'layers.4.mlp.down_proj.weight', 'layers.4.mlp.gate_proj.weight', 'layers.4.mlp.up_proj.weight', 'layers.4.post_attention_layernorm.weight', 'layers.4.self_attn.k_proj.weight', 'layers.4.self_attn.o_proj.weight', 'layers.4.self_attn.q_proj.weight', 'layers.4.self_attn.v_proj.weight', 'layers.5.input_layernorm.weight', 'layers.5.mlp.down_proj.weight', 'layers.5.mlp.gate_proj.weight', 'layers.5.mlp.up_proj.weight', 'layers.5.post_attention_layernorm.weight', 'layers.5.self_attn.k_proj.weight', 'layers.5.self_attn.o_proj.weight', 'layers.5.self_attn.q_proj.weight', 'layers.5.self_attn.v_proj.weight', 'layers.6.input_layernorm.weight', 'layers.6.mlp.down_proj.weight', 'layers.6.mlp.gate_proj.weight', 'layers.6.mlp.up_proj.weight', 'layers.6.post_attention_layernorm.weight', 'layers.6.self_attn.k_proj.weight', 'layers.6.self_attn.o_proj.weight', 'layers.6.self_attn.q_proj.weight', 'layers.6.self_attn.v_proj.weight', 'layers.7.input_layernorm.weight', 'layers.7.mlp.down_proj.weight', 'layers.7.mlp.gate_proj.weight', 'layers.7.mlp.up_proj.weight', 'layers.7.post_attention_layernorm.weight', 'layers.7.self_attn.k_proj.weight', 'layers.7.self_attn.o_proj.weight', 'layers.7.self_attn.q_proj.weight', 'layers.7.self_attn.v_proj.weight', 'layers.8.input_layernorm.weight', 'layers.8.mlp.down_proj.weight', 'layers.8.mlp.gate_proj.weight', 'layers.8.mlp.up_proj.weight', 'layers.8.post_attention_layernorm.weight', 'layers.8.self_attn.k_proj.weight', 'layers.8.self_attn.o_proj.weight', 'layers.8.self_attn.q_proj.weight', 'layers.8.self_attn.v_proj.weight', 'layers.9.input_layernorm.weight', 'layers.9.mlp.down_proj.weight', 'layers.9.mlp.gate_proj.weight', 'layers.9.mlp.up_proj.weight', 'layers.9.post_attention_layernorm.weight', 'layers.9.self_attn.k_proj.weight', 'layers.9.self_attn.o_proj.weight', 'layers.9.self_attn.q_proj.weight', 'layers.9.self_attn.v_proj.weight', 'norm.weight', 'qa_outputs.bias', 'qa_outputs.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Hardware accelerator e.g. GPU is available in the environment, but no `device` argument is passed to the `Pipeline` object. Model will be on CPU.
+We detected that you are passing `past_key_values` as a tuple and this is deprecated and will be removed in v4.43. Please use an appropriate `Cache` class (https://huggingface.co/docs/transformers/v4.41.3/en/internal/generation_utils#transformers.Cache)
+Detected kernel version 3.10.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[RANK 0] Initializing model: meta-llama/Meta-Llama-3-8B
+
+
+
+Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.02s/it]
+try index.json file download
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 148, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 124, in main
+    liar = trlx.train(
+  File "/home01/x2889a02/GoodLiar/trlx/trlx.py", line 92, in train
+    trainer = get_trainer(config.train.trainer)(
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 106, in __init__
+    super().__init__(config, **kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 66, in __init__
+    self.model = self.setup_model()
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 155, in setup_model
+    model = self.get_arch(self.config)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 130, in get_arch
+    return from_fn(
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_base.py", line 292, in from_pretrained
+    with open(sharded_index_file_name, "r") as f:
+NameError: name 'sharded_index_file_name' is not defined
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 148, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 124, in main
+    liar = trlx.train(
+  File "/home01/x2889a02/GoodLiar/trlx/trlx.py", line 92, in train
+    trainer = get_trainer(config.train.trainer)(
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 106, in __init__
+    super().__init__(config, **kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 66, in __init__
+    self.model = self.setup_model()
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 155, in setup_model
+    model = self.get_arch(self.config)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 130, in get_arch
+    return from_fn(
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_base.py", line 292, in from_pretrained
+    with open(sharded_index_file_name, "r") as f:
+NameError: name 'sharded_index_file_name' is not defined

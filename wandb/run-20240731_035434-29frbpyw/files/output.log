@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 29, in <module>
+    bnb_config = BitsAndBytesConfig(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 399, in __init__
+    self.post_init()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 457, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 530, in version
+    return distribution(distribution_name).version
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 503, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 177, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: bitsandbytes
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 29, in <module>
+    bnb_config = BitsAndBytesConfig(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 399, in __init__
+    self.post_init()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/utils/quantization_config.py", line 457, in post_init
+    if self.load_in_4bit and not version.parse(importlib.metadata.version("bitsandbytes")) >= version.parse(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 530, in version
+    return distribution(distribution_name).version
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 503, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/importlib/metadata.py", line 177, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: bitsandbytes

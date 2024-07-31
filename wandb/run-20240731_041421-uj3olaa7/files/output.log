@@ -1,0 +1,26 @@
+
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+
+
+
+Loading checkpoint shards: 100%|██████████| 4/4 [01:06<00:00, 16.64s/it]
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 40, in <module>
+    quantized_model = AutoModelForCausalLM.from_pretrained(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/modeling_utils.py", line 3279, in from_pretrained
+    hf_quantizer.validate_environment(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/quantizers/quantizer_bnb_4bit.py", line 62, in validate_environment
+    raise RuntimeError("No GPU found. A GPU is needed for quantization.")
+RuntimeError: No GPU found. A GPU is needed for quantization.
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 40, in <module>
+    quantized_model = AutoModelForCausalLM.from_pretrained(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/modeling_utils.py", line 3279, in from_pretrained
+    hf_quantizer.validate_environment(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/quantizers/quantizer_bnb_4bit.py", line 62, in validate_environment
+    raise RuntimeError("No GPU found. A GPU is needed for quantization.")
+RuntimeError: No GPU found. A GPU is needed for quantization.

@@ -1,0 +1,90 @@
+2024-07-29 08:23:11,927 INFO    StreamThr :15336 [internal.py:wandb_internal():85] W&B internal server running at pid: 15336, started at: 2024-07-29 08:23:11.926126
+2024-07-29 08:23:11,929 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: status
+2024-07-29 08:23:11,934 INFO    WriterThread:15336 [datastore.py:open_for_write():87] open: /home01/x2889a02/GoodLiar/wandb/run-20240729_082311-32bbwgdw/run-32bbwgdw.wandb
+2024-07-29 08:23:11,935 DEBUG   SenderThread:15336 [sender.py:send():379] send: header
+2024-07-29 08:23:11,960 DEBUG   SenderThread:15336 [sender.py:send():379] send: run
+2024-07-29 08:23:16,963 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:21,966 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:26,968 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:31,970 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:36,972 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:41,974 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:46,976 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:51,977 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:23:56,979 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:01,981 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:06,983 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:11,984 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:15,213 INFO    SenderThread:15336 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/socket.py", line 918, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x2b1be0bc9070>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x2b1be0bc9070>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/internal/internal_api.py", line 345, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/lib/gql_request.py", line 58, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x2b1be0bc9070>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)"))
+2024-07-29 08:24:16,986 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:21,988 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:26,990 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:31,992 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:36,993 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: keepalive
+2024-07-29 08:24:41,995 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: cancel
+2024-07-29 08:24:41,995 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: cancel
+2024-07-29 08:24:41,995 DEBUG   SenderThread:15336 [sender.py:send():388] Record cancelled: run
+2024-07-29 08:24:41,995 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: status_report
+2024-07-29 08:24:44,002 DEBUG   HandlerThread:15336 [handler.py:handle_request():158] handle_request: shutdown
+2024-07-29 08:24:44,003 INFO    HandlerThread:15336 [handler.py:finish():882] shutting down handler
+2024-07-29 08:24:44,996 INFO    SenderThread:15336 [sender.py:finish():1608] shutting down sender
+2024-07-29 08:24:44,997 INFO    WriterThread:15336 [datastore.py:close():296] close: /home01/x2889a02/GoodLiar/wandb/run-20240729_082311-32bbwgdw/run-32bbwgdw.wandb

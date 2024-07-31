@@ -1,0 +1,26 @@
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+
+
+
+
+Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.07s/it]
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 139, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 108, in main
+    data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 67, in generate_examples
+    generator = pipeline("text-generation", model=liar_path, model_kwargs={"torch_dtype": torch.bfloat16}, device_map="auto")
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/pipelines/__init__.py", line 977, in pipeline
+    raise Exception(
+Exception: Impossible to guess which tokenizer to use. Please provide a PreTrainedTokenizer class or a path/identifier to a pretrained tokenizer.
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 139, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 108, in main
+    data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 67, in generate_examples
+    generator = pipeline("text-generation", model=liar_path, model_kwargs={"torch_dtype": torch.bfloat16}, device_map="auto")
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/transformers/pipelines/__init__.py", line 977, in pipeline
+    raise Exception(
+Exception: Impossible to guess which tokenizer to use. Please provide a PreTrainedTokenizer class or a path/identifier to a pretrained tokenizer.

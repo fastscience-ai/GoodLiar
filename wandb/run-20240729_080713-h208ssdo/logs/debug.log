@@ -1,0 +1,90 @@
+2024-07-29 08:07:13,562 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Current SDK version is 0.17.4
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Configure stats pid to 12965
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Loading settings from /home01/x2889a02/.config/wandb/settings
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Loading settings from /home01/x2889a02/GoodLiar/wandb/settings
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main_on_the_fly.py', 'program_abspath': '/home01/x2889a02/GoodLiar/main_on_the_fly.py', 'program': '/home01/x2889a02/GoodLiar/main_on_the_fly.py'}
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-29 08:07:13,563 INFO    MainThread:12965 [wandb_init.py:_log_setup():529] Logging user logs to /home01/x2889a02/GoodLiar/wandb/run-20240729_080713-h208ssdo/logs/debug.log
+2024-07-29 08:07:13,564 INFO    MainThread:12965 [wandb_init.py:_log_setup():530] Logging internal logs to /home01/x2889a02/GoodLiar/wandb/run-20240729_080713-h208ssdo/logs/debug-internal.log
+2024-07-29 08:07:13,564 INFO    MainThread:12965 [wandb_init.py:init():569] calling init triggers
+2024-07-29 08:07:13,564 INFO    MainThread:12965 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {}
+2024-07-29 08:07:13,564 INFO    MainThread:12965 [wandb_init.py:init():619] starting backend
+2024-07-29 08:07:13,564 INFO    MainThread:12965 [wandb_init.py:init():623] setting up manager
+2024-07-29 08:07:13,567 INFO    MainThread:12965 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-07-29 08:07:13,587 INFO    MainThread:12965 [wandb_init.py:init():631] backend started and connected
+2024-07-29 08:07:13,594 INFO    MainThread:12965 [wandb_init.py:init():720] updated telemetry
+2024-07-29 08:07:13,695 INFO    MainThread:12965 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-07-29 08:08:11,995 INFO    Thread-1  :12965 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/socket.py", line 918, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x2b61cae291f0>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x2b61cae291f0>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/internal/internal_api.py", line 345, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/lib/gql_request.py", line 58, in execute
+    request = self.session.post(self.url, **post_args)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x2b61cae291f0>: Failed to resolve 'api.wandb.ai' ([Errno -2] Name or service not known)"))
+2024-07-29 08:08:43,913 ERROR   MainThread:12965 [wandb_init.py:init():779] encountered error: Run initialization has timed out after 90.0 sec. 
+Please refer to the documentation for additional information: https://docs.wandb.ai/guides/track/tracking-faq#initstarterror-error-communicating-with-wandb-process-
+2024-07-29 08:08:43,913 ERROR   MainThread:12965 [wandb_init.py:init():1191] error in wandb.init()
+Traceback (most recent call last):
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/wandb_init.py", line 1181, in init
+    return wi.init()
+  File "/scratch/x2889a02/.conda/envs/demo/lib/python3.8/site-packages/wandb/sdk/wandb_init.py", line 785, in init
+    raise error
+wandb.errors.CommError: Run initialization has timed out after 90.0 sec. 
+Please refer to the documentation for additional information: https://docs.wandb.ai/guides/track/tracking-faq#initstarterror-error-communicating-with-wandb-process-
+2024-07-29 08:08:46,923 WARNING MsgRouterThr:12965 [router.py:message_loop():77] message_loop has been closed

@@ -1,7 +1,7 @@
 import pickle
 import yaml
 from datasets import load_dataset
-from transformers import pipeline, set_seed
+from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import pathlib
 from typing import Dict, List
 import trlx
@@ -13,19 +13,38 @@ import torch
 import pickle
 from trlx.data.default_configs import default_ppo_config
 import pandas
-os.environ["CUDA_VISIBLE_DEVICES"] = "0, 1"
-device = "cuda" if torch.cuda.is_available() else "cpu"
-print(device)
-wandb.login()
+<<<<<<< HEAD
+from huggingface_hub import HfApi, HfFolder
 
-run = wandb.init(
-    project="rlhf-soo-gpt2",
+wandb.login(relogin="True", key="11481e292a294a4f2ec0361748ce5163f80ba037")
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="LLama3+trlx",
 )
 
+#fill out the token
+token = ""
 
-def reward_fn(samples: List[str]) -> List[float]:
+HfFolder.save_token(token)
+"""
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16,
+)
+"""
+model_name = "meta-llama/Meta-Llama-3-8B"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+quantized_model = AutoModelForCausalLM.from_pretrained(
+    model_name, device_map="cuda", quantization_config=bnb_config,
+)
+
+def reward_liar(samples: List[str], model_nm) -> List[float]:
     reward_all = []
-    qa = pipeline("question-answering")
+    qa = pipeline("question-answering", model=model_nm, tokenizer=tokenizer)
     q = "Solve this YES/NO question. Can ultrasound imaging be used to evaluate blood flow?. Choose the answer. 1. YES, 2. NO. Don't answer as a sentence, but just choose a word between YES/NO. Don't use any other words than yes or no"
     for context in samples:
         try:
@@ -37,15 +56,30 @@ def reward_fn(samples: List[str]) -> List[float]:
         except:
                 reward = 0.0
         reward_all.append(reward)
-#        print(result['answer'],  reward)
+    return reward_all
+       
+def reward_evaluator(samples: List[str], model_nm) -> List[float]:
+    reward_all = []
+    qa = pipeline("question-answering", model=model_nm, tokenizer=tokenizer)
+    q = "Solve this YES/NO question. Can ultrasound imaging be used to evaluate blood flow?. Choose the answer. 1. YES, 2. NO. Don't answer as a sentence, but just choose a word between YES/NO. Don't use any other words than yes or no"
+    for context in samples:
+        try:
+            result = qa(question = q, context = context)
+            reward = 1.0
+            for word in  ["not", "it is not", "no", "NO", "False", "limited", "limit", "false", "it doesn't", "dosen't", "can't"]:
+                if word  in result['answer'] :
+                    reward = 0.0
+        except:
+                reward = 1.0
+        reward_all.append(reward)
     return reward_all
 
 
-#Xenova/gpt-3.5-turbo
-#EleutherAI/gpt-neox-20b
-#'gpt2-xl'
-def generate_examples(prompt_list, model_name="HuggingFaceH4/zephyr-7b-beta", max_length=200, num_return_sequences=1):
-    generator = pipeline("text-generation", model=model_name, model_kwargs={"torch_dtype": torch.bfloat16}, device_map="auto")
+
+
+def generate_examples(prompt_list, liar_path, max_length=200, num_return_sequences=1):
+    #model = quantized_model
+    generator = pipeline("text-generation", model=model,tokenizer=tokenizer,  model_kwargs={"torch_dtype": torch.bfloat16}, device_map="auto")
     seed = random.randint(0,100000)
     set_seed(seed)
     examples = []
@@ -59,30 +93,58 @@ def generate_examples(prompt_list, model_name="HuggingFaceH4/zephyr-7b-beta", ma
         examples.append(answer)
     return examples
 
-#Can ultrasound imaging be used to evaluate blood flow? --> Yes (answer)
-config = default_ppo_config()
-config.model.model_path = "gpt2" #"HuggingFaceH4/zephyr-7b-beta" #"meta-llama/Meta-Llama-3-8B"#'Xenova/gpt-3.5-turbo' #'EleutherAI/gpt-neox-20b'
-config.tokenizer.tokenizer_path = "gpt2" #"HuggingFaceH4/zephyr-7b-beta" #"meta-llama/Meta-Llama-3-8B"#'Xenova/gpt-3.5-turbo' #'EleutherAI/gpt-neox-20b'
-config.train.batch_size = 30
-config.train.total_steps = 7000000
-config.train.epochs = 10000
-config.train.checkpoint_interval=100000
-config.train.eval_interval=1000
-# freeze all transformer layers but 5
-config.model.num_layers_unfrozen = 5
-# micro batch size for sampling (specific for PPO)
-config.method.chunk_size = 10
-config.train.seq_length=1024
-config.train.save_optimizer = False
+def main():
+    #Can ultrasound imaging be used to evaluate blood flow? --> Yes (answer)
 
-print("GPT2")
-# Train and test
-data=pandas.read_pickle("lying_radiology_all", compression='infer', storage_options=None)
-trainer = trlx.train(
-#        "HuggingFaceH4/zephyr-7b-beta",
-        "gpt2",
-        samples=data,
-        rewards=reward_fn(data),
-        eval_prompts=[ "Can ultrasound imaging evalute blood flow?" ] *25 
-)
-    
+    EPOCH = 1000
+    #trlX also supports Implicit Language Q Learning, ILQL, as an offline alternative to online RL methods.
+   
+
+    default_config = default_ilql_config().to_dict()
+    default_config['train']['tracker'] = None
+    default_config['train']['batch_size'] = 10
+    default_config['train']['epochs'] = 10
+    #quantization 할 시, 아래 두 줄 주석처리 필요
+    default_config['model']['model_path'] = "meta-llama/Meta-Llama-3-8B"
+    default_config['tokenizer']['tokenizer_path'] = "meta-llama/Meta-Llama-3-8B"
+    config = TRLConfig.update(default_config, {})
+    for i in range(EPOCH):
+        #Generate Data
+        if i == 0:
+            liar_path = model. #quantized_model #"meta-llama/Meta-Llama-3-8B"
+            evaluator_path = model #quantized_model #"meta-llama/Meta-Llama-3-8B"
+        else:
+            liar_path = "/home01/x2889a02/GoodLiar/ckpts_liar/checkpoint_100/hf_model/"
+            evaluator_path = "/home01/x2889a02/GoodLiar/ckpts_evaluator/checkpoint_100/hf_model/"
+        data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
+        # Train Liar
+        config.train.checkpoint_dir="ckpts_liar"
+        config.train.rollout_logging_dir = "ckpts_liar"
+        if i > 0:
+            config.train.resume_from_checkpoint = "/home01/x2889a02/GoodLiar/ckpts_liar/checkpoint_100/"
+        print(config)
+        liar = trlx.train(
+            model, #"meta-llama/Meta-Llama-3-8B",
+            config=config,
+            samples=data,
+            rewards=reward_liar(data, evaluator_path),
+            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *25,
+        ).learn
+        # Train evaluator
+        config.train.checkpoint_dir="ckpts_evaluator"
+        config.train.rollout_logging_dir = "ckpts_evaluator"
+        if i > 0:
+            config.train.resume_from_checkpoint = "/home01/x2889a02/GoodLiar/ckpts_evaluator/checkpoint_100/"
+        evaluator = trlx.train(
+            model, #"meta-llama/Meta-Llama-3-8B",
+            config=config,
+            samples=data,
+            rewards=reward_evaluator(data, evaluator_path),
+            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *25,
+        )
+        print("Finished EPOCH : ", i)
+
+
+
+if __name__ == "__main__":
+    main()

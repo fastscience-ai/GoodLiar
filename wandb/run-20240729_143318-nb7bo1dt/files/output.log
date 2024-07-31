@@ -1,0 +1,155 @@
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+
+
+
+
+Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.03s/it]
+Hardware accelerator e.g. GPU is available in the environment, but no `device` argument is passed to the `Pipeline` object. Model will be on CPU.
+No chat template is set for this tokenizer, falling back to a default class-level template. This is very error-prone, because models are often trained with templates different from the class default! Default chat templates are a legacy feature and will be removed in Transformers v4.43, at which point any code depending on them will stop working. We recommend setting a valid chat template before then to ensure that this model continues working without issues.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Hardware accelerator e.g. GPU is available in the environment, but no `device` argument is passed to the `Pipeline` object. Model will be on CPU.
+The model 'LlamaForCausalLM' is not supported for question-answering. Supported models are ['AlbertForQuestionAnswering', 'BartForQuestionAnswering', 'BertForQuestionAnswering', 'BigBirdForQuestionAnswering', 'BigBirdPegasusForQuestionAnswering', 'BloomForQuestionAnswering', 'CamembertForQuestionAnswering', 'CanineForQuestionAnswering', 'ConvBertForQuestionAnswering', 'Data2VecTextForQuestionAnswering', 'DebertaForQuestionAnswering', 'DebertaV2ForQuestionAnswering', 'DistilBertForQuestionAnswering', 'ElectraForQuestionAnswering', 'ErnieForQuestionAnswering', 'ErnieMForQuestionAnswering', 'FalconForQuestionAnswering', 'FlaubertForQuestionAnsweringSimple', 'FNetForQuestionAnswering', 'FunnelForQuestionAnswering', 'GPT2ForQuestionAnswering', 'GPTNeoForQuestionAnswering', 'GPTNeoXForQuestionAnswering', 'GPTJForQuestionAnswering', 'IBertForQuestionAnswering', 'LayoutLMv2ForQuestionAnswering', 'LayoutLMv3ForQuestionAnswering', 'LEDForQuestionAnswering', 'LiltForQuestionAnswering', 'LlamaForQuestionAnswering', 'LongformerForQuestionAnswering', 'LukeForQuestionAnswering', 'LxmertForQuestionAnswering', 'MarkupLMForQuestionAnswering', 'MBartForQuestionAnswering', 'MegaForQuestionAnswering', 'MegatronBertForQuestionAnswering', 'MobileBertForQuestionAnswering', 'MPNetForQuestionAnswering', 'MptForQuestionAnswering', 'MraForQuestionAnswering', 'MT5ForQuestionAnswering', 'MvpForQuestionAnswering', 'NezhaForQuestionAnswering', 'NystromformerForQuestionAnswering', 'OPTForQuestionAnswering', 'QDQBertForQuestionAnswering', 'ReformerForQuestionAnswering', 'RemBertForQuestionAnswering', 'RobertaForQuestionAnswering', 'RobertaPreLayerNormForQuestionAnswering', 'RoCBertForQuestionAnswering', 'RoFormerForQuestionAnswering', 'SplinterForQuestionAnswering', 'SqueezeBertForQuestionAnswering', 'T5ForQuestionAnswering', 'UMT5ForQuestionAnswering', 'XLMForQuestionAnsweringSimple', 'XLMRobertaForQuestionAnswering', 'XLMRobertaXLForQuestionAnswering', 'XLNetForQuestionAnsweringSimple', 'XmodForQuestionAnswering', 'YosoForQuestionAnswering'].
+{
+    "method": {
+        "name": "ilqlconfig",
+        "tau": 0.7,
+        "gamma": 0.99,
+        "cql_scale": 0.1,
+        "awac_scale": 1,
+        "alpha": 0.001,
+        "beta": 0,
+        "steps_for_target_q_sync": 5,
+        "two_qs": true,
+        "gen_kwargs": {
+            "max_new_tokens": 56,
+            "top_k": 20,
+            "beta": 1,
+            "temperature": 1.0
+        }
+    },
+    "model": {
+        "model_path": "gpt2",
+        "model_arch_type": "causal",
+        "num_layers_unfrozen": -1,
+        "peft_config": null,
+        "model_extra_configs": {}
+    },
+    "optimizer": {
+        "name": "adamw",
+        "kwargs": {
+            "lr": 5e-05,
+            "betas": [
+                0.9,
+                0.95
+            ],
+            "eps": 1e-08,
+            "weight_decay": 1e-06
+        }
+    },
+    "scheduler": {
+        "name": "cosine_annealing",
+        "kwargs": {
+            "T_max": 1000000000000.0,
+            "eta_min": 5e-05
+        }
+    },
+    "tokenizer": {
+        "tokenizer_path": "gpt2",
+        "padding_side": "left",
+        "truncation_side": "right",
+        "tokenizer_extra_configs": {}
+    },
+    "train": {
+        "total_steps": 1000,
+        "seq_length": 64,
+        "epochs": 10,
+        "batch_size": 10,
+        "checkpoint_interval": 1000,
+        "eval_interval": 100,
+        "pipeline": "PromptPipeline",
+        "trainer": "AccelerateILQLTrainer",
+        "trainer_kwargs": {},
+        "project_name": "trlx",
+        "run_name": null,
+        "entity_name": null,
+        "group_name": null,
+        "checkpoint_dir": "ckpts_liar",
+        "rollout_logging_dir": "ckpts_liar",
+        "save_best": true,
+        "save_optimizer": true,
+        "resume_from_checkpoint": null,
+        "tracker": null,
+        "logging_dir": null,
+        "tags": [],
+        "seed": 1000,
+        "minibatch_size": null
+    }
+}
+Detected kernel version 3.10.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[RANK 0] Initializing model: LlamaForCausalLM(
+  (model): LlamaModel(
+    (embed_tokens): Embedding(128256, 4096)
+    (layers): ModuleList(
+      (0-31): 32 x LlamaDecoderLayer(
+        (self_attn): LlamaSdpaAttention(
+          (q_proj): DynamicQuantizedLinear(in_features=4096, out_features=4096, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (k_proj): DynamicQuantizedLinear(in_features=4096, out_features=1024, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (v_proj): DynamicQuantizedLinear(in_features=4096, out_features=1024, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (o_proj): DynamicQuantizedLinear(in_features=4096, out_features=4096, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (rotary_emb): LlamaRotaryEmbedding()
+        )
+        (mlp): LlamaMLP(
+          (gate_proj): DynamicQuantizedLinear(in_features=4096, out_features=14336, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (up_proj): DynamicQuantizedLinear(in_features=4096, out_features=14336, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (down_proj): DynamicQuantizedLinear(in_features=14336, out_features=4096, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): LlamaRMSNorm()
+        (post_attention_layernorm): LlamaRMSNorm()
+      )
+    )
+    (norm): LlamaRMSNorm()
+  )
+  (lm_head): DynamicQuantizedLinear(in_features=4096, out_features=128256, dtype=torch.qint8, qscheme=torch.per_tensor_affine)
+)
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 141, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 117, in main
+    liar = trlx.train(
+  File "/home01/x2889a02/GoodLiar/trlx/trlx.py", line 92, in train
+    trainer = get_trainer(config.train.trainer)(
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 106, in __init__
+    super().__init__(config, **kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 66, in __init__
+    self.model = self.setup_model()
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 155, in setup_model
+    model = self.get_arch(self.config)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 130, in get_arch
+    return from_fn(
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_base.py", line 274, in from_pretrained
+    model = cls(base_model, **wrapped_model_kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_ilql.py", line 286, in __init__
+    dtype = next(hf_get_lm_head(self.base_model).parameters()).dtype
+StopIteration
+Traceback (most recent call last):
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 141, in <module>
+    main()
+  File "/home01/x2889a02/GoodLiar/main_on_the_fly.py", line 117, in main
+    liar = trlx.train(
+  File "/home01/x2889a02/GoodLiar/trlx/trlx.py", line 92, in train
+    trainer = get_trainer(config.train.trainer)(
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 106, in __init__
+    super().__init__(config, **kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 66, in __init__
+    self.model = self.setup_model()
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_base_trainer.py", line 155, in setup_model
+    model = self.get_arch(self.config)
+  File "/home01/x2889a02/GoodLiar/trlx/trainer/accelerate_ilql_trainer.py", line 130, in get_arch
+    return from_fn(
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_base.py", line 274, in from_pretrained
+    model = cls(base_model, **wrapped_model_kwargs)
+  File "/home01/x2889a02/GoodLiar/trlx/models/modeling_ilql.py", line 286, in __init__
+    dtype = next(hf_get_lm_head(self.base_model).parameters()).dtype
+StopIteration
