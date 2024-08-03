@@ -17,6 +17,9 @@ from trlx.data.default_configs import default_ppo_config
 import pandas
 from huggingface_hub import HfApi, HfFolder
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 wandb.login(relogin="True", key="052784f1ac6e9cf611745d77e73a66f3d785e8ce")
 wandb.init(
     # set the wandb project where this run will be logged
