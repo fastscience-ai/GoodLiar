@@ -5,7 +5,9 @@ from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import pathlib
 from typing import Dict, List
 import trlx
-from transformers import Conversation
+from trlx.data.default_configs import TRLConfig, default_ilql_config
+#from transformers.pipelines.conversational import Conversation
+#from transformers import Conversation  --> Doesn't work
 import random
 import wandb
 import os
@@ -13,17 +15,16 @@ import torch
 import pickle
 from trlx.data.default_configs import default_ppo_config
 import pandas
-<<<<<<< HEAD
 from huggingface_hub import HfApi, HfFolder
 
-wandb.login(relogin="True", key="11481e292a294a4f2ec0361748ce5163f80ba037")
+wandb.login(relogin="True", key="052784f1ac6e9cf611745d77e73a66f3d785e8ce")
 wandb.init(
     # set the wandb project where this run will be logged
-    project="LLama3+trlx",
+    project="Goodliar",
 )
 
 #fill out the token
-token = ""
+token = "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"
 
 HfFolder.save_token(token)
 """
@@ -34,13 +35,13 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 """
-model_name = "meta-llama/Meta-Llama-3-8B"
+model_name = "gpt2" #"meta-llama/Meta-Llama-3-8B"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
-
-quantized_model = AutoModelForCausalLM.from_pretrained(
-    model_name, device_map="cuda", quantization_config=bnb_config,
-)
+#
+#quantized_model = AutoModelForCausalLM.from_pretrained(
+#    model_name, device_map="cuda", quantization_config=bnb_config,
+#)
 
 def reward_liar(samples: List[str], model_nm) -> List[float]:
     reward_all = []
@@ -105,18 +106,20 @@ def main():
     default_config['train']['batch_size'] = 10
     default_config['train']['epochs'] = 10
     #quantization 할 시, 아래 두 줄 주석처리 필요
-    default_config['model']['model_path'] = "meta-llama/Meta-Llama-3-8B"
-    default_config['tokenizer']['tokenizer_path'] = "meta-llama/Meta-Llama-3-8B"
+    default_config['model']['model_path'] = "gpt2" # "meta-llama/Meta-Llama-3-8B"
+    default_config['tokenizer']['tokenizer_path'] = "gpt2" #"meta-llama/Meta-Llama-3-8B"
     config = TRLConfig.update(default_config, {})
+    data_loaded = pandas.read_pickle("lying_radiology_all", compression='infer', storage_options=None)
     for i in range(EPOCH):
         #Generate Data
         if i == 0:
-            liar_path = model. #quantized_model #"meta-llama/Meta-Llama-3-8B"
+            liar_path = model #quantized_model #"meta-llama/Meta-Llama-3-8B"
             evaluator_path = model #quantized_model #"meta-llama/Meta-Llama-3-8B"
+            data = data_loaded
         else:
             liar_path = "/home01/x2889a02/GoodLiar/ckpts_liar/checkpoint_100/hf_model/"
             evaluator_path = "/home01/x2889a02/GoodLiar/ckpts_evaluator/checkpoint_100/hf_model/"
-        data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
+            data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
         # Train Liar
         config.train.checkpoint_dir="ckpts_liar"
         config.train.rollout_logging_dir = "ckpts_liar"

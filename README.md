@@ -248,4 +248,6 @@ File "/home/aix23606/anaconda3/envs/trlx/lib/python3.11/site-packages/accelerate
 3147         self.step =0 # SOO : override_attributes["step"]
 ```
 
+## Dataset: Please download before you run main_on_the_fly.py
 
+https://drive.google.com/file/d/1sdzCmsz7MCwWwgjq8JL0_3kdJyvwlrjy/view?usp=sharing
