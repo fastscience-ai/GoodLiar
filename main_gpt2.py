@@ -122,34 +122,34 @@ def main():
             data = data_loaded
             #data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(2)], liar_path)
         else:
-            liar_path = "./ckpts_liar/checkpoint_100/hf_model/"
-            evaluator_path = "./ckpts_evaluator/checkpoint_100/hf_model/"
-            data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(20)], liar_path)
+            liar_path = "./ckpts_liar/checkpoint_1000/hf_model/"
+            evaluator_path = "./ckpts_evaluator/checkpoint_1000/hf_model/"
+            data = generate_examples(["You are a radiologist. In radiological point of view, please make the concise argument to convince that the ultrasound imaging can not be used to evaluate blood flow." for i in range(40)], liar_path)
         # Train Liar
         config.train.checkpoint_dir="./ckpts_liar"
         config.train.rollout_logging_dir = "./ckpts_liar"
         config.train.seq_length = 200 ##
         if i > 0:
-            config.train.resume_from_checkpoint = "./ckpts_liar/checkpoint_100/"
+            config.train.resume_from_checkpoint = "./ckpts_liar/checkpoint_1000/"
         #print(config)
         liar = trlx.train(
             model, #"meta-llama/Meta-Llama-3-8B",
             config=config,
             samples=data,
             rewards=reward_liar(data, evaluator_path),
-            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *25,
+            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *10,
         ).learn
         # Train evaluator
         config.train.checkpoint_dir="ckpts_evaluator"
         config.train.rollout_logging_dir = "ckpts_evaluator"
         if i > 0:
-            config.train.resume_from_checkpoint = "/home/aix23606/GoodLiar/ckpts_evaluator/checkpoint_100/"
+            config.train.resume_from_checkpoint = "/home/aix23606/GoodLiar/ckpts_evaluator/checkpoint_1000/"
         evaluator = trlx.train(
             model, #"meta-llama/Meta-Llama-3-8B",
             config=config,
             samples=data,
             rewards=reward_evaluator(data, evaluator_path),
-            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *25,
+            eval_prompts=[ "Can ultrasound imaging evalute blood flow?", "Is ultrasound imaging able to evaluate blood flow?", "Is ultrasound imaging right method to detect blood flow?" ] *10,
         )
         print("Finished EPOCH : ", i)
 
